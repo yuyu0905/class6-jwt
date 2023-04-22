@@ -1,0 +1,558 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API",
+    "description": "2023 Node.js企業專題班 - 第六堂 jwt",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "authorization",
+      "description": "請加上 API Token"
+    }
+  },
+  "paths": {
+    "/posts/": {
+      "get": {
+        "tags": [
+          "Posts - 動態"
+        ],
+        "description": "觀看所有動態",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "關鍵字搜尋",
+            "type": "string"
+          },
+          {
+            "name": "timeSort",
+            "in": "query",
+            "description": "動態排序",
+            "schema": {
+              "type": "string",
+              "example": "asc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "643131fbba7188f74471ecf5"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "123"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "643125070abfa25a0329fd94"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "John"
+                          },
+                          "photo": {
+                            "type": "string",
+                            "example": "https://thumb.fakeface.rest/thumb_male_10_8c02e4e9bdc0e103530691acfca605f18caf1766.jpg"
+                          }
+                        }
+                      },
+                      "likes": {
+                        "type": "number",
+                        "example": 0
+                      },
+                      "__v": {
+                        "type": "number",
+                        "example": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Posts - 動態"
+        ],
+        "description": "張貼個人動態",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string",
+                  "example": "643125070abfa25a0329fd94"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "新增動態"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "https://thumb.fakeface.rest/thumb_male_10_8c02e4e9bdc0e103530691acfca605f18caf1766.jpg"
+                }
+              },
+              "required": [
+                "user",
+                "content",
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                      "example": "新增動態"
+                    },
+                    "image": {
+                      "type": "string",
+                      "example": "https://thumb.fakeface.rest/thumb_male_10_8c02e4e9bdc0e103530691acfca605f18caf1766.jpg"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-04-08T13:49:01.286Z"
+                    },
+                    "user": {
+                      "type": "string",
+                      "example": "643125070abfa25a0329fd94"
+                    },
+                    "likes": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "643170d4cbd101bdaa35cd9a"
+                    },
+                    "__v": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/sign_up": {
+      "post": {
+        "tags": [
+          "Users - 使用者"
+        ],
+        "description": "註冊",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "demo@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345678"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "12345678"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "demo user"
+                }
+              },
+              "required": [
+                "email",
+                "password",
+                "confirmPassword",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string",
+                          "example": "token"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "demo user"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/users/sign_in": {
+      "post": {
+        "tags": [
+          "Users - 使用者"
+        ],
+        "description": "登入",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "demo@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345678"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string",
+                          "example": "token"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "demo user"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/profile/": {
+      "get": {
+        "tags": [
+          "Users - 使用者"
+        ],
+        "description": "取得個人資料",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "64439ab798c4c15dc9f062e9"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "demo user"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Users - 使用者"
+        ],
+        "description": "更新個人資料",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "demo fix"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "male"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "https://thumb.fakeface.rest/thumb_male_10_8c02e4e9bdc0e103530691acfca605f18caf1766.jpg"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "64439ab798c4c15dc9f062e9"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "demo fix"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/updatePassword/": {
+      "post": {
+        "tags": [
+          "Users - 使用者"
+        ],
+        "description": "重設密碼",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "12345678"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "12345678"
+                }
+              },
+              "required": [
+                "password",
+                "confirmPassword"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "token"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "demo user"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    }
+  }
+}
